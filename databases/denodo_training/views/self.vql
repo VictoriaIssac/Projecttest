@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW self AS SELECT countries.country_id AS country_id, countries.country_name AS country_name, countries.region_id AS region_id FROM countries AS countries FULL OUTER JOIN countries AS countries1 ON countries.country_name = countries1.country_name  CONTEXT ('I18N' = 'us_pst_pdt');
+
+ALTER VIEW self
+ LAYOUT (countries = [20, 20, 200, 86], countries = [361, 62, 200, 86]);
+

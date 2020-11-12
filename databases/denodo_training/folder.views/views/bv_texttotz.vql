@@ -1,0 +1,29 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC bv_texttotz
+    FOLDER = '/views'
+    DATASOURCENAME=ds_human_resources
+    SCHEMANAME='${databases.denodo_training.folder.views.views.jdbc.bv_texttotz.SCHEMANAME}' 
+    RELATIONNAME='TEXTTOTZ' 
+    OUTPUTSCHEMA (
+        sys_id = 'SYS_ID' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', sourcetypeid='12', sourcetypename='VARCHAR2')  SORTABLE,
+        sys_created_on = 'SYS_CREATED_ON' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='100', sourcetypeid='12', sourcetypename='VARCHAR2')  SORTABLE
+    );
+
+CREATE OR REPLACE TABLE bv_texttotz I18N au_cst (
+        sys_id:text (sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20'), 
+        sys_created_on:text (sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '100')
+    )
+    FOLDER = '/views'
+    CACHE OFF
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD bv_texttotz(
+        I18N au_cst
+        CONSTRAINTS (
+             ADD sys_id (any) OPT ANY
+             ADD sys_created_on (any) OPT ANY
+        )
+        OUTPUTLIST (sys_created_on, sys_id
+        )
+        WRAPPER (jdbc bv_texttotz)
+    );
+

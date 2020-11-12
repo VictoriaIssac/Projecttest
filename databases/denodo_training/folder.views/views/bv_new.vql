@@ -1,0 +1,36 @@
+﻿# REQUIRES-PROPERTIES-FILE - # Do not remove this comment!
+CREATE OR REPLACE WRAPPER JDBC bv_new
+    FOLDER = '/views'
+    DATASOURCENAME=ds_human_resources
+    SCHEMANAME='${databases.denodo_training.folder.views.views.jdbc.bv_new.SCHEMANAME}' ESCAPE
+    RELATIONNAME='BV_NEW' 
+    OUTPUTSCHEMA (
+        id_new = 'ID_NEW' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', sourcetypeid='12', sourcetypename='VARCHAR2')  NOT NULL SORTABLE,
+        name = 'NAME' :'java.lang.String' (OPT) (sourcetyperadix='10', sourcetypesize='20', sourcetypeid='12', sourcetypename='VARCHAR2')  SORTABLE,
+        lastmodifieddate = 'LASTMODIFIEDDATE' :'java.time.LocalDateTime' (OPT) (sourcetyperadix='10', sourcetypesize='7', sourcetypeid='93', sourcetypename='DATE')  SORTABLE
+    )
+    CONSTRAINT 'BV_NEW_PK' PRIMARY KEY ( 'ID_NEW' )
+    INDEX 'BV_NEW_PK' CLUSTER UNIQUE PRIMARY ( 'ID_NEW' );
+
+CREATE OR REPLACE TABLE bv_new I18N au_cst (
+        id_new:text (sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20'), 
+        name:text (sourcetypeid = '12', sourcetyperadix = '10', sourcetypesize = '20'), 
+        lastmodifieddate:timestamp (sourcetypeid = '93', sourcetyperadix = '10', sourcetypesize = '7')
+    )
+    FOLDER = '/views'
+    CONSTRAINT 'BV_NEW_PK' PRIMARY KEY ( 'id_new' )
+    CACHE FULL
+    BATCHSIZEINCACHE DEFAULT
+    TIMETOLIVEINCACHE DEFAULT
+    ADD SEARCHMETHOD bv_new(
+        I18N au_cst
+        CONSTRAINTS (
+             ADD id_new (any) OPT ANY
+             ADD name (any) OPT ANY
+             ADD lastmodifieddate (any) OPT ANY
+        )
+        OUTPUTLIST (id_new, lastmodifieddate, name
+        )
+        WRAPPER (jdbc bv_new)
+    );
+

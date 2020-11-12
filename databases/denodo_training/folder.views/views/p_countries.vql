@@ -1,0 +1,5 @@
+﻿CREATE OR REPLACE VIEW p_countries FOLDER = '/views' AS SELECT countries.country_id AS country_id, countries.country_name AS country_name, countries.region_id AS region_id FROM countries CONTEXT ('I18N' = 'us_pst_pdt');
+
+ALTER VIEW p_countries
+ LAYOUT (countries = [20, 20, 214, 86]);
+
